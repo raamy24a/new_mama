@@ -1,0 +1,89 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_env.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/25 10:15:57 by acollon           #+#    #+#             */
+/*   Updated: 2026/01/25 13:19:04 by radib            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/minishell.h"
+
+t_env	*new_env_var(char *key, char *value)
+{
+	t_env	*new_node;
+
+	new_node = (t_env *)malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
+	new_node->key = key;
+	new_node->value = value;
+	new_node->status = 1;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+void	add_to_env(t_env **head, t_env *node)
+{
+	t_env	*current;
+
+	if (!node)
+		return ;
+	if (!*head)
+	{
+		*head = node;
+		(*head)->status = 1;
+		return ;
+	}
+	current = *head;
+	while (current->next)
+		current = current->next;
+	current->next = node;
+	if (!ft_strcmp (node->key, "OLDPWD") && !node->value)
+		node->status = 0;
+	else
+		node->status = 1;
+}
+
+t_env	*duplicate_env(char *input)
+{
+	char	*sep;
+	char	*key;
+	char	*value;
+
+	sep = ft_strchr(input, '=');
+	if (!sep)
+	{
+		key = ft_strdup(input);
+		if (!key)
+			return (NULL);
+		value = NULL;
+	}
+	else
+	{
+		key = ft_substr(input, 0, sep - input);
+		if (!key)
+			return (NULL);
+		value = ft_strdup(sep + 1);
+		if (!value)
+			return (free(key), NULL);
+	}
+	return (new_env_var(key, value));
+}
+
+void	free_env(t_env *env)
+{
+    t_env *next;
+
+    while (env)
+    {
+        next = env->next;
+        free(env->key);
+        free(env->value);
+        free(env);
+        env = next;
+    }
+}

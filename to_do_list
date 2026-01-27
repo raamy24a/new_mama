@@ -1,0 +1,4 @@
+fix segfault on ctrl+d
+
+fix expend $? $?+$?
+
