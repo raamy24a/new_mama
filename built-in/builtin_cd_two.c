@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:28:38 by radib             #+#    #+#             */
-/*   Updated: 2026/01/28 16:41:32 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/28 21:33:50 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*cd_last(t_env *env)
 	return (get_value_of_key(env, "OLDPWD"));
 }
 
-int	wich_cd(t_env *env, char *string_after_cd, int x, char *temp_pwd)
+int	wich_cd(t_env *env, char *string_after_cd, int x)
 {
 	char	*temp;
 
@@ -49,8 +49,10 @@ int	wich_cd(t_env *env, char *string_after_cd, int x, char *temp_pwd)
 			x = chdir(cd_last(env));
 		if (x == 0)
 		{
-			print_pwd();
-			return (swap_env(env, "PWD", temp_pwd, 1));
+			temp = get_pwd();
+			printf("%s\n", temp);
+			swap_env(env, "PWD", temp, 1);
+			return (free(temp), 0);
 		}
 		else
 			return (x);
@@ -64,7 +66,7 @@ int	call_cd(t_env *env, char *string_after_cd)
 	char	*temp_pwd;
 
 	temp_pwd = get_pwd();
-	x = wich_cd(env, string_after_cd, 1, temp_pwd);
+	x = wich_cd(env, string_after_cd, 1);
 	if (x == 0 || x == 1)
 	{
 		free(temp_pwd);
@@ -77,7 +79,7 @@ int	call_cd(t_env *env, char *string_after_cd)
 		free(temp_pwd);
 		return (errno);
 	}
-	change_value_of_key(env, "OLDPWD", temp_pwd);
+	change_value_of_key(env, "OLDPWD", get_value_of_key(env, "PWD"));
 	free(temp_pwd);
 	temp_pwd = get_pwd();
 	change_value_of_key(env, "PWD", temp_pwd);

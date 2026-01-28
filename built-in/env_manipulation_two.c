@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 09:58:40 by radib             #+#    #+#             */
-/*   Updated: 2026/01/19 14:28:54 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/28 21:15:52 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,14 @@ int	change_value_of_key(t_env *env, char *key, char *new_value)
 	}
 	if (ft_strcmp(key, tmp->key) != 0)
 		return (0);
-	free (tmp->value);
+	if (!ft_strlen(new_value))
+	{
+		tmp->status = 2;
+		free(tmp->value);
+		tmp->value = NULL;
+	}
+	if (tmp->status == 1)
+		free (tmp->value);
 	tmp->value = ft_strdup(new_value);
 	tmp->status = 1;
 	return (1);
