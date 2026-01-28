@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:31:27 by radib             #+#    #+#             */
-/*   Updated: 2026/01/28 09:24:09 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/28 13:39:03 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,33 +49,31 @@ char	**export_one(char *input, char	*value, char **return_string)
 	return (return_string);
 }
 
-int	export_with_args(t_env *environement, char **command, int i, int verify)
+int	export_with_args(t_env *environement, char **command, int i, int exit)
 {
-	int		j;
 	char	**command_split;
 	int		equal;
 
 	while (command[++i])
 	{
+		exit = 0;
+		equal = 0;
 		command_split = ft_calloc(sizeof(char *), 3);
-		j = 0;
-		while (ft_strlen(command[i]) && command[i][j] && command[i][j] != '=')
-			j++;
-		if (command[i][j] == '=')
+		if (ft_strchr(command[i], '='))
 			equal = 1;
-		else
-			equal = 0;
 		command_split = export_one(command[i], NULL, command_split);
 		if (!command_split)
 			return (0);
-		if (verify == 1 && verify_identifier(command_split
-				, 0, 0, command_split[0]) != 1)
+		if (verify_identifier(command_split, 0, 0, command_split[0]) != 1)
+		{
+			exit = 1;
 			continue ;
+		}
 		else
 			export_str(environement, &command_split[0], equal);
 		free(command_split);
 	}
-	return (0);
+	return (exit * -1);
 }
 
 void	export_print(int equal, char *key, char *value)

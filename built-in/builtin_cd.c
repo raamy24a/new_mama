@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 03:04:19 by radib             #+#    #+#             */
-/*   Updated: 2026/01/19 14:20:09 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/28 16:30:08 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*cd_builtin(char *path, char *string_after_cd, int x)
 		else
 			x++;
 	}
+	free_split(split);
 	return (path);
 }
 
@@ -84,7 +85,7 @@ int	swap_env(t_env *env, char *a, char *b, int mode)
 	if (mode == 1)
 	{
 		change_value_of_key(env, "PWD", b);
-		change_value_of_key(env, a, c);
+		change_value_of_key(env, "OLDPWD", c);
 	}
 	else
 	{
@@ -97,16 +98,10 @@ int	swap_env(t_env *env, char *a, char *b, int mode)
 
 char	*cd_home(t_env *env)
 {
-	t_env	*temp;
-
-	temp = env;
-	while (temp->next && ft_strcmp ("HOME", temp->key) != 0)
-		temp = temp->next;
-	if (ft_strcmp ("HOME", temp->key) != 0)
+	if (!get_value_of_key(env, "HOME"))
 	{
-		ft_printf("minishell: cd: HOME not set\n");
+		printf("minishell: cd: HOME not set\n");
 		return (NULL);
 	}
-	swap_env(env, "HOME", "PWD", 0);
-	return (temp->value);
+	return (get_value_of_key(env, "HOME"));
 }

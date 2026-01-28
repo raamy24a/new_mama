@@ -1,4 +1,2 @@
-Fix cd -
-fix leaks cd
-fix leaks export
 fix invalid free unset
+expand une non valeur sans rien leaks

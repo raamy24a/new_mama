@@ -6,11 +6,20 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:28:38 by radib             #+#    #+#             */
-/*   Updated: 2026/01/19 14:25:14 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/28 16:41:32 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	print_pwd(void)
+{
+	char	*temp;
+
+	temp = get_pwd();
+	printf("%s\n", temp);
+	free(temp);
+}
 
 char	*cd_last(t_env *env)
 {
@@ -22,47 +31,56 @@ char	*cd_last(t_env *env)
 	return (get_value_of_key(env, "OLDPWD"));
 }
 
-int	wich_cd(t_env *env, char *string_after_cd, int x, char *old_pwd)
+int	wich_cd(t_env *env, char *string_after_cd, int x, char *temp_pwd)
 {
+	char	*temp;
+
 	if (!string_after_cd)
 	{
-		x = chdir(cd_home(env));
-		if (x == 0)
-		{
-			printf("%s\n", get_pwd());
-			return (swap_env(env, old_pwd, get_pwd(), 1));
-		}
+		temp = cd_home(env);
+		if (temp)
+			if (!chdir(temp))
+				return (swap_env(env, "HOME", "PWD", 0));
+		return (1);
 	}
-	if (ft_strlen(string_after_cd) == 1 && string_after_cd[0] == '-')
+	else if (ft_strlen(string_after_cd) == 1 && string_after_cd[0] == '-')
 	{
-		x = chdir(cd_last(env));
+		if (cd_last(env))
+			x = chdir(cd_last(env));
 		if (x == 0)
 		{
-			printf("%s\n", get_pwd());
-			return (swap_env(env, "PWD", "OLDPWD", 0));
+			print_pwd();
+			return (swap_env(env, "PWD", temp_pwd, 1));
 		}
 		else
-			return (-2);
+			return (x);
 	}
-	return (-1);
+	return (-10);
 }
 
 int	call_cd(t_env *env, char *string_after_cd)
 {
-	char	buffer[4096 + 1];
 	int		x;
-	char	*old_pwd;
+	char	*temp_pwd;
 
-	old_pwd = get_pwd();
-	buffer[4096] = '\0';
-	getcwd (buffer, 4096);
-	x = wich_cd(env, string_after_cd, -1, old_pwd);
-	if (x == 0 || x == -2)
-		return (x);
-	if ((chdir(cd_builtin(buffer, string_after_cd, 0)) != 0))
+	temp_pwd = get_pwd();
+	x = wich_cd(env, string_after_cd, 1, temp_pwd);
+	if (x == 0 || x == 1)
 	{
-		perror("rien pour le moment");
+		free(temp_pwd);
+		return (x);
+	}
+	if ((chdir(cd_builtin(temp_pwd, string_after_cd, 0)) != 0))
+	{
+		ft_putstr_fd("minishell: cd:", 2);
+		perror(string_after_cd);
+		free(temp_pwd);
 		return (errno);
 	}
-	return (swap_env(env, "OLDPWD", get_pwd(), 1));
+	change_value_of_key(env, "OLDPWD", temp_pwd);
+	free(temp_pwd);
+	temp_pwd = get_pwd();
+	change_value_of_key(env, "PWD", temp_pwd);
+	free(temp_pwd);
+	return (0);
 }

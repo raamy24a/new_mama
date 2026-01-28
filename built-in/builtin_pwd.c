@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 22:36:10 by radib             #+#    #+#             */
-/*   Updated: 2026/01/23 03:44:05 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/28 14:28:27 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ char	*get_pwd(void)
 	char	*buffer;
 
 	buffer = malloc (sizeof(char) * 4096 + 1);
+	if (!buffer)
+		return (NULL);
 	buffer[4096] = '\0';
 	if (getcwd(buffer, 4096) != NULL)
-	{
 		return (buffer);
-	}
 	free(buffer);
 	perror("rien pour l'instant");
 	return (NULL);

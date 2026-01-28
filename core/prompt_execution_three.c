@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:35:30 by radib             #+#    #+#             */
-/*   Updated: 2026/01/27 14:56:20 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/28 12:24:51 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ int	execute_commands(t_command *cmd, t_env *env, int count, t_f **tc)
 		if (init_pipefd(cmd, pipefd))
 			return (1);
 		last_pid = launch_command(tc, prev_fd, pipefd[1], env);
-		if (last_pid < 0)
-			return (1);
+		if (last_pid <= 0)
+			return (last_pid * -1);
 		parent_update_fds(&prev_fd, pipefd, tc);
 		cmd = cmd->next;
 		count++;
