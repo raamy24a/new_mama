@@ -1,4 +1,4 @@
-fix segfault on ctrl+d
-
-fix expend $? $?+$?
-
+Fix cd -
+fix leaks cd
+fix leaks export
+fix invalid free unset

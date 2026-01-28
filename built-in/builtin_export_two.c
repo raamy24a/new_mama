@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:31:27 by radib             #+#    #+#             */
-/*   Updated: 2026/01/22 14:30:35 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/28 09:24:09 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int	export_builtin(t_env *environement, char **command, int verify)
 			temp = temp->next;
 		}
 		export_print(temp->status, temp->key, temp->value);
+		free_env(sorted_env);
 	}
 	else
 		x = export_with_args(environement, &command[1], -1, verify);
