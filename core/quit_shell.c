@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 15:31:45 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/25 15:39:36 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:34 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	quit_shell(int exit_status, t_env *env)
 {
-	exit_call_silent(exit_status, env);
+	exit_call_silent(exit_status, env, NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 15:32:14 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/29 15:31:15 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/29 18:26:17 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,20 @@ int	apply_redirections(t_redir *redir, int *input_fd, int *output_fd)
 	return (0);
 }
 
-void	exec_exit(char **command, t_env *env, t_f *tc)
+void	exec_exit(char **command, t_env *env)
 {
 	t_long_verif	*nbr;
 	long long		exit_nbr;
 
 	if (!command[1])
-		exit_call(0, env, tc);
+		exit_call(0, env, NULL);
 	nbr = ft_verif_atoll(command[1], 1, 0, 0);
 	exit_nbr = nbr->nbr;
 	if (nbr->status == 0)
 	{
 		printf("minishell: exit: %s: numeric argument required\n", command[1]);
 		free(nbr);
-		exit_call(2, env, tc);
+		exit_call(2, env, NULL);
 	}
 	else if (command[2])
 	{
@@ -100,10 +100,10 @@ void	exec_exit(char **command, t_env *env, t_f *tc)
 		return ;
 	}
 	free(nbr);
-	exit_call(exit_nbr, env, tc);
+	exit_call(exit_nbr, env, NULL);
 }
 
-int	exec_builtin(int x, char **command, t_env *env, t_f **tc)
+int	exec_builtin(int x, char **command, t_env *env)
 {
 	t_env	*temp;
 	int		return_value;
@@ -111,9 +111,9 @@ int	exec_builtin(int x, char **command, t_env *env, t_f **tc)
 	temp = NULL;
 	return_value = 0;
 	if (x == 1)
-		return_value = echobuiltin(&command[1], 1, 0, tc);
+		return_value = echobuiltin(&command[1], 1, 0);
 	else if (x == 2)
-		return_value = call_pwd(tc);
+		return_value = call_pwd();
 	else if (x == 3)
 		return_value = export_builtin(env, command, 1);
 	else if (x == 4)
@@ -121,8 +121,8 @@ int	exec_builtin(int x, char **command, t_env *env, t_f **tc)
 	else if (x == 5)
 		return_value = call_cd(env, command[1]);
 	else if (x == 6)
-		exec_exit(command, env, (*tc));
+		exec_exit(command, env);
 	else if (x == 7)
-		return_value = call_env(env, tc);
+		return_value = call_env(env);
 	return (return_value);
 }
