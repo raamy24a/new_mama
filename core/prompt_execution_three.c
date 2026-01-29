@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:35:30 by radib             #+#    #+#             */
-/*   Updated: 2026/01/29 16:15:38 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/29 17:06:41 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,13 @@ void	child_execute_suite(t_f **tc, int input_fd, int output_fd, t_env *env)
 		close(output_fd);
 }
 
-int child_execute(t_f **tc, int prev_fd, int *pipefd ,t_env *env)
+int	child_execute(t_f **tc, int prev_fd, int *pipefd, t_env *env)
 {
-	int input_fd;
-	int output_fd;
-	char **str_env;
+	int		input_fd;
+	int		output_fd;
+	char	**str_env;
 
+	signal(SIGPIPE, SIG_IGN);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	input_fd = prev_fd;
