@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:34:38 by radib             #+#    #+#             */
-/*   Updated: 2026/01/28 12:18:33 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/29 15:16:16 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ pid_t	launch_command(t_f **tc, int prev_fd, int next_fd, t_env *env)
 
 	if (!(*tc)->cmds->argv)
 		return (0);
-	if (is_builtin((*tc)->cmds->argv[0]))
+	if (is_builtin((*tc)->cmds->argv[0]) && !((*tc)->cmds->pipe_after))
 		return (exec_builtin(is_builtin((*tc)->cmds->argv[0]), (*tc)->cmds->argv, env, tc));
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:35:30 by radib             #+#    #+#             */
-/*   Updated: 2026/01/28 12:24:51 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/29 15:44:48 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,20 @@ int	is_builtin_child(char *builtin_str)
 		return (1);
 	else if (ft_strcmp(builtin_str, "pwd") == 0)
 		return (2);
+	else if (ft_strcmp(builtin_str, "export") == 0)
+		return (3);
+	else if (ft_strcmp(builtin_str, "unset") == 0)
+		return (4);
+	else if (ft_strcmp(builtin_str, "cd") == 0)
+		return (5);
+	else if (ft_strcmp(builtin_str, "exit") == 0)
+		return (6);
 	else if (ft_strcmp(builtin_str, "env") == 0)
 		return (7);
 	return (0);
 }
 
-void	child_execute_suite(t_f **tc,
-		int input_fd, int output_fd, t_env *env)
+void	child_execute_suite(t_f **tc, int input_fd, int output_fd, t_env *env)
 {
 	if (apply_redirections((*tc)->cmds->redirs, &input_fd, &output_fd) == -1)
 		exit_call(EXIT_FAILURE, env, (*tc));
@@ -38,11 +45,11 @@ void	child_execute_suite(t_f **tc,
 		close(output_fd);
 }
 
-int	child_execute(t_f **tc, int prev_fd, int next_fd, t_env *env)
+int child_execute(t_f **tc, int prev_fd, int next_fd, t_env *env)
 {
-	int		input_fd;
-	int		output_fd;
-	char	**str_env;
+	int input_fd;
+	int output_fd;
+	char **str_env;
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -53,9 +60,9 @@ int	child_execute(t_f **tc, int prev_fd, int next_fd, t_env *env)
 	if (output_fd == -1)
 		output_fd = STDOUT_FILENO;
 	child_execute_suite(tc, input_fd, output_fd, env);
-	if (prev_fd != -1 && prev_fd != input_fd)
+	if (prev_fd != -1 && prev_fd != STDIN_FILENO)
 		close(prev_fd);
-	if (next_fd != -1 && next_fd != output_fd)
+	if (next_fd != -1 && next_fd != STDOUT_FILENO)
 		close(next_fd);
 	if (is_builtin_child((*tc)->cmds->argv[0]))
 		exit_call_silent(exec_builtin(is_builtin_child((*tc)->cmds->argv[0]),
@@ -76,15 +83,25 @@ static int	init_pipefd(t_command *cmd, int pipefd[2])
 	return (0);
 }
 
-static int	parent_update_fds(int *prev_fd, int pipefd[2], t_f **tc)
+static int	parent_update_fds(int *prev_fd, int pipefd[2])
 {
 	if (pipefd[1] != -1)
 		close(pipefd[1]);
 	if (*prev_fd != -1)
 		close(*prev_fd);
 	*prev_fd = pipefd[0];
-	(*tc)->cmds = (*tc)->cmds->next;
 	return (0);
+}
+
+static int	close_exec_fds(int prev_fd, int pipefd[2])
+{
+	if (pipefd[0] != -1)
+		close(pipefd[0]);
+	if (pipefd[1] != -1)
+		close(pipefd[1]);
+	if (prev_fd != -1)
+		close(prev_fd);
+	return (1);
 }
 
 int	execute_commands(t_command *cmd, t_env *env, int count, t_f **tc)
@@ -97,12 +114,15 @@ int	execute_commands(t_command *cmd, t_env *env, int count, t_f **tc)
 	prev_fd = -1;
 	while (cmd)
 	{
+		pipefd[0] = -1;
+		pipefd[1] = -1;
+		(*tc)->cmds = cmd;
 		if (init_pipefd(cmd, pipefd))
 			return (1);
 		last_pid = launch_command(tc, prev_fd, pipefd[1], env);
 		if (last_pid <= 0)
-			return (last_pid * -1);
-		parent_update_fds(&prev_fd, pipefd, tc);
+			return (-last_pid * close_exec_fds(prev_fd, pipefd));
+		parent_update_fds(&prev_fd, pipefd);
 		cmd = cmd->next;
 		count++;
 	}

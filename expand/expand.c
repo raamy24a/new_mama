@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 00:20:02 by radib             #+#    #+#             */
-/*   Updated: 2026/01/28 10:03:20 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/29 11:16:38 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,10 +185,7 @@ void	expand_commands(t_command *cmds, t_env *env, int last_status)
 		i = -1;
 		while (cmds->argv[++i])
 		{
-			old = cmds->argv[i];
 			expand_argv(&cmds->argv[i], 0, last_status, env);
-			if (*&cmds->argv[i] != *&old)
-				free(old);
 			old = cmds->argv[i];
 			cmds->argv[i] = strip_quotes(cmds->argv[i]);
 			if (*&cmds->argv[i] != *&old)

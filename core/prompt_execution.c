@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 15:32:14 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/25 12:36:04 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/29 15:31:15 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,21 +106,23 @@ void	exec_exit(char **command, t_env *env, t_f *tc)
 int	exec_builtin(int x, char **command, t_env *env, t_f **tc)
 {
 	t_env	*temp;
+	int		return_value;
 
 	temp = NULL;
+	return_value = 0;
 	if (x == 1)
-		return (echobuiltin(&command[1], 1, 0, tc));
-	if (x == 2)
-		return (call_pwd(tc));
-	if (x == 3)
-		return (export_builtin(env, command, 1));
-	if (x == 4)
-		return (builtin_unset(env, command, temp, 1));
-	if (x == 5)
-		return (call_cd(env, command[1]));
-	if (x == 6)
+		return_value = echobuiltin(&command[1], 1, 0, tc);
+	else if (x == 2)
+		return_value = call_pwd(tc);
+	else if (x == 3)
+		return_value = export_builtin(env, command, 1);
+	else if (x == 4)
+		return_value = builtin_unset(env, command, temp, 1);
+	else if (x == 5)
+		return_value = call_cd(env, command[1]);
+	else if (x == 6)
 		exec_exit(command, env, (*tc));
-	if (x == 7)
-		return (call_env(env, tc));
-	return (0);
+	else if (x == 7)
+		return_value = call_env(env, tc);
+	return (return_value);
 }
