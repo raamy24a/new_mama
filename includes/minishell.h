@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:37:41 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/29 09:48:10 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/29 16:04:09 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ int				apply_redirections(t_redir *redir,
 					int *input_fd, int *output_fd);
 int				exec_builtin(int x, char **command, t_env *env, t_f **tc);
 pid_t			launch_command(t_f **tc,
-					int prev_fd, int next_fd, t_env *env);
+					int prev_fd, int *pipefd, t_env *env);
 int				wait_children(pid_t last_pid, int count);
 int				child_execute(t_f **tc,
-					int prev_fd, int next_fd, t_env *env);
+					int prev_fd, int *pipefd, t_env *env);
 int				execute_commands(t_command *cmd, t_env *env,
 					int count, t_f **tc);
 

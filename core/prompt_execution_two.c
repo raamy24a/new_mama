@@ -6,13 +6,13 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:34:38 by radib             #+#    #+#             */
-/*   Updated: 2026/01/29 15:16:16 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/29 16:03:09 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-pid_t	launch_command(t_f **tc, int prev_fd, int next_fd, t_env *env)
+pid_t	launch_command(t_f **tc, int prev_fd, int *pipefd, t_env *env)
 {
 	pid_t				pid;
 
@@ -29,7 +29,7 @@ pid_t	launch_command(t_f **tc, int prev_fd, int next_fd, t_env *env)
 			return (-1);
 		}
 		if (pid == 0)
-			child_execute(tc, prev_fd, next_fd, env);
+			child_execute(tc, prev_fd, pipefd, env);
 		return (pid);
 	}
 }

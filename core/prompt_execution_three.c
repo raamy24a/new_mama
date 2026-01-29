@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:35:30 by radib             #+#    #+#             */
-/*   Updated: 2026/01/29 15:44:48 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/29 16:15:38 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	child_execute_suite(t_f **tc, int input_fd, int output_fd, t_env *env)
 		close(output_fd);
 }
 
-int child_execute(t_f **tc, int prev_fd, int next_fd, t_env *env)
+int child_execute(t_f **tc, int prev_fd, int *pipefd ,t_env *env)
 {
 	int input_fd;
 	int output_fd;
@@ -54,7 +54,7 @@ int child_execute(t_f **tc, int prev_fd, int next_fd, t_env *env)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	input_fd = prev_fd;
-	output_fd = next_fd;
+	output_fd = pipefd[1];
 	if (input_fd == -1)
 		input_fd = STDIN_FILENO;
 	if (output_fd == -1)
@@ -62,8 +62,10 @@ int child_execute(t_f **tc, int prev_fd, int next_fd, t_env *env)
 	child_execute_suite(tc, input_fd, output_fd, env);
 	if (prev_fd != -1 && prev_fd != STDIN_FILENO)
 		close(prev_fd);
-	if (next_fd != -1 && next_fd != STDOUT_FILENO)
-		close(next_fd);
+	if (pipefd[1] != -1 && pipefd[1] != STDOUT_FILENO)
+		close(pipefd[1]);
+	if (pipefd[0] != -1)
+		close(pipefd[0]);
 	if (is_builtin_child((*tc)->cmds->argv[0]))
 		exit_call_silent(exec_builtin(is_builtin_child((*tc)->cmds->argv[0]),
 				(*tc)->cmds->argv, env, tc), env);
@@ -119,7 +121,7 @@ int	execute_commands(t_command *cmd, t_env *env, int count, t_f **tc)
 		(*tc)->cmds = cmd;
 		if (init_pipefd(cmd, pipefd))
 			return (1);
-		last_pid = launch_command(tc, prev_fd, pipefd[1], env);
+		last_pid = launch_command(tc, prev_fd, pipefd, env);
 		if (last_pid <= 0)
 			return (-last_pid * close_exec_fds(prev_fd, pipefd));
 		parent_update_fds(&prev_fd, pipefd);
