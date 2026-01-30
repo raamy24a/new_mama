@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:37:41 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/30 14:26:07 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/31 00:05:03 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int				prompt_execution(char *user_input, t_env *env, int last_status);
 int				px_exec(char **args, char **env_str, t_env *env, t_f *tc);
 int				apply_redirections(t_redir *redir,
 					int *input_fd, int *output_fd);
-int				exec_builtin(int x, char **command, t_env *env, int pipe);
+int				exec_builtin(int x, char **command, t_env *env, t_f *tc);
 pid_t			launch_command(t_f **tc,
 					int prev_fd, int *pipefd, t_env *env);
 int				wait_children(pid_t last_pid, int count);

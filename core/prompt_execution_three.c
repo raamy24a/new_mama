@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:35:30 by radib             #+#    #+#             */
-/*   Updated: 2026/01/30 14:20:06 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/31 00:06:57 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	is_builtin_child(char *builtin_str)
 	else if (ft_strcmp(builtin_str, "cd") == 0)
 		return (5);
 	else if (ft_strcmp(builtin_str, "exit") == 0)
-		return (6);
+		return (8);
 	else if (ft_strcmp(builtin_str, "env") == 0)
 		return (7);
 	return (0);
@@ -69,7 +69,7 @@ int	child_execute(t_f **tc, int prev_fd, int *pipefd, t_env *env)
 		close(pipefd[0]);
 	if (is_builtin_child((*tc)->cmds->argv[0]))
 		exit_call_silent(exec_builtin(is_builtin_child((*tc)->cmds->argv[0]),
-				(*tc)->cmds->argv, env, 1), env, *tc);
+				(*tc)->cmds->argv, env, *tc), env, *tc);
 	str_env = env_to_char_array(env, 0);
 	return (px_exec((*tc)->cmds->argv, str_env, env, *tc));
 }

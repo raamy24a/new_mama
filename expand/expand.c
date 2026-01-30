@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 00:20:02 by radib             #+#    #+#             */
-/*   Updated: 2026/01/30 14:15:42 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/31 00:25:18 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char	**expand_dollars(char *s, int x, t_env *env)
 	char	*temp;
 	char	**return_str;
 
+	if (ft_strlen(s) == 1 || !ft_strlen(s))
+		return (NULL);
 	return_str = malloc(sizeof(char *) * 3);
 	while (s[x] >= '0' && (s[x] <= '9' || s[x] >= 'A')
 		&& (s[x] <= 'Z' || s[x] >= 'a') && (s[x] <= 'z' || s[x] == '_'))
@@ -85,9 +87,9 @@ char	**expand_dollars(char *s, int x, t_env *env)
 		x++;
 	}
 	temp[x] = '\0';
-	return_str[0] = ft_strdup(get_value_of_key(env, temp));
+	return_str[1] = ft_strdup(get_value_of_key(env, temp));
 	return_str[2] = NULL;
-	return_str[1] = ft_strdup(&s[x]);
+	return_str[0] = ft_strdup(&s[x]);
 	return (free(temp), return_str);
 }
 

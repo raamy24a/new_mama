@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:14:08 by radib             #+#    #+#             */
-/*   Updated: 2026/01/30 14:14:46 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/31 00:35:49 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,18 @@ int	expand_str_two(char **str, char **argv, int i)
 	char	*temp;
 	int		x;
 
+	if (!str)
+		return (1);
 	copy = ft_strdup(*argv);
 	copy[i] = '\0';
-	temp = ft_strjoin(copy, str[0]);
+	temp = ft_strjoin(copy, str[1]);
 	free(*argv);
-	(*argv) = ft_strjoin(temp, str[1]);
+	(*argv) = ft_strjoin(temp, str[0]);
 	free(copy);
 	free(temp);
 	if (!*argv)
 		return (-1);
-	x = ft_strlen(str[0]);
+	x = ft_strlen(str[1]);
 	if (!x)
 		x++;
 	free_split(str);

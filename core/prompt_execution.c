@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 15:32:14 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/30 13:04:39 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/31 00:06:14 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,20 @@ int	apply_redirections(t_redir *redir, int *input_fd, int *output_fd)
 	return (0);
 }
 
-void	exec_exit(char **command, t_env *env)
+void	exec_exit(char **command, t_env *env, t_f *tc)
 {
 	t_long_verif	*nbr;
 	long long		exit_nbr;
 
 	if (!command[1])
-		exit_call(0, env, NULL);
+		exit_call(0, env, tc);
 	nbr = ft_verif_atoll(command[1], 1, 0, 0);
 	exit_nbr = nbr->nbr;
 	if (nbr->status == 0)
 	{
 		printf("minishell: exit: %s: numeric argument required\n", command[1]);
 		free(nbr);
-		exit_call(2, env, NULL);
+		exit_call(2, env, tc);
 	}
 	else if (command[2])
 	{
@@ -100,10 +100,10 @@ void	exec_exit(char **command, t_env *env)
 		return ;
 	}
 	free(nbr);
-	exit_call(exit_nbr, env, NULL);
+	exit_call(exit_nbr, env, tc);
 }
 
-int	exec_builtin(int x, char **command, t_env *env, int pipe)
+int	exec_builtin(int x, char **command, t_env *env, t_f *tc)
 {
 	t_env	*temp;
 	int		return_value;
@@ -120,10 +120,10 @@ int	exec_builtin(int x, char **command, t_env *env, int pipe)
 		return_value = builtin_unset(env, command, temp, 1);
 	else if (x == 5)
 		return_value = call_cd(env, command[1]);
-	else if (x == 6 && pipe == 1)
+	else if (x == 8)
 		return_value = exec_exit_pipe(command);
 	else if (x == 6)
-		exec_exit(command, env);
+		exec_exit(command, env, tc);
 	else if (x == 7)
 		return_value = call_env(env);
 	return (return_value);
