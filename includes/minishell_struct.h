@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:38:39 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/23 12:01:34 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 10:40:09 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_f
 {
 	t_shell		*tokens;
 	t_command	*cmds;
+	t_command	**cmd_adress;
 	t_env		*env;
 }	t_f;
 

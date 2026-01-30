@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:12:00 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/29 11:04:29 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 10:43:11 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_tc(t_f **tc)
 {
-	free_command_list(&(*tc)->cmds);
+	// free_command_list(&(*tc)->cmds);
 	free_token_list(&(*tc)->tokens);
 	free(*tc);
 }

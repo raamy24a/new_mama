@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:34:38 by radib             #+#    #+#             */
-/*   Updated: 2026/01/29 23:47:16 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 12:50:29 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ pid_t	launch_command(t_f **tc, int prev_fd, int *pipefd, t_env *env)
 
 	if (!(*tc)->cmds->argv)
 		return (0);
-	if (is_builtin((*tc)->cmds->argv[0]) && !((*tc)->cmds->pipe_after))
+	if (is_builtin((*tc)->cmds->argv[0]) && (!((*tc)->cmds->pipe_after)
+			&& !((*tc)->cmds->pipe_before)))
 		return (exec_builtin(is_builtin((*tc)->cmds->argv[0]),
-			(*tc)->cmds->argv, env));
+				(*tc)->cmds->argv, env, 0));
 	else
 	{
 		pid = fork();
@@ -83,6 +84,7 @@ int	run_pipeline(t_shell *tokens, t_env *env, int last_status)
 		tc->cmds = cmds;
 		tc->tokens = tokens;
 		tc->env = env;
+		tc->cmd_adress = &cmds;
 		expand_commands(cmds, env, last_status);
 		status = execute_commands(cmds, env, 0, &tc);
 	}

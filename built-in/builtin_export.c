@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 22:36:10 by radib             #+#    #+#             */
-/*   Updated: 2026/01/23 11:58:48 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 13:28:53 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,22 +84,26 @@ t_env	*sorting_list(t_env *environement, char *key, char *value, t_env *temp)
 	return (to_sort);
 }
 
+static int	print_invalid_identifier(char *temp, char *command)
+{
+	ft_putstr_fd("minishell: export:`", STDERR_FILENO);
+	ft_putstr_fd(temp, STDERR_FILENO);
+	ft_putstr_fd("=", STDERR_FILENO);
+	ft_putstr_fd(command, STDERR_FILENO);
+	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+	return (2);
+}
+
 int	verify_identifier(char **command, int i, int j, char *temp)
 {
 	if (!ft_strlen(command[0]))
 		return (20);
 	if (ft_isalpha(command[i][j]) == 0 && command[i][j] != '_' && i % 2 == 0)
-		return (printf("minishell: export: `%s=%s': not a valid identifier\n"
-				, temp, command[i + 1]));
+		return (print_invalid_identifier(temp, command[i + 1]));
 	while (command[i][++j] && command[i][j] != '=' && i % 2 == 0)
 	{
 		if (ft_isalnum(command[i][j]) == 0 || command[i][j] == '_')
-		{
-			return (printf
-				("minishell: export:`%s=%s': not a valid identifier\n"
-					, temp, command[i + 1]));
-			i++;
-		}
+			return (print_invalid_identifier(temp, command[i + 1]));
 	}
 	return (1);
 }
@@ -114,7 +118,11 @@ int	export_str(t_env *env, char **to_export, int equal)
 	if (!ft_strcmp (to_export[0], "_"))
 		return (0);
 	if (ft_strcmp (to_export[0], temp->key) == 0)
-		export_old_var(temp, to_export[1], equal);
+	{
+		change_value_of_key(env, to_export[0], to_export[1]);
+		free(to_export[0]);
+		free(to_export[1]);
+	}
 	else
 		export_new_var(temp, to_export, equal);
 	return (0);

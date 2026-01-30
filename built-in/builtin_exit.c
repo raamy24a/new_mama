@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:48:51 by radib             #+#    #+#             */
-/*   Updated: 2026/01/30 01:03:09 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 12:02:25 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ t_long_verif	*ft_verif_atoll(const char *nptr
 
 int	exit_call_silent(int x, t_env *env, t_f *tc)
 {
+	if (tc)
+		free_command_list(tc->cmd_adress);
 	free_env(env);
 	if (tc)
 		free_tc(&tc);
@@ -54,6 +56,8 @@ int	exit_call_silent(int x, t_env *env, t_f *tc)
 
 int	exit_call(long long x, t_env *env, t_f *tc)
 {
+	if (tc)
+		free_command_list(tc->cmd_adress);
 	free_env(env);
 	if (tc)
 		free_tc(&tc);

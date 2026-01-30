@@ -1,3 +1,4 @@
 fix invalid free unset
 expand une non valeur sans rien leaks
-FIX FREE DANS PIPES
+fix leak export
+fix leak env -i

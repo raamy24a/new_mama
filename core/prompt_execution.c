@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 15:32:14 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/30 00:59:17 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 13:04:39 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	exec_exit(char **command, t_env *env)
 	exit_call(exit_nbr, env, NULL);
 }
 
-int	exec_builtin(int x, char **command, t_env *env)
+int	exec_builtin(int x, char **command, t_env *env, int pipe)
 {
 	t_env	*temp;
 	int		return_value;
@@ -120,6 +120,8 @@ int	exec_builtin(int x, char **command, t_env *env)
 		return_value = builtin_unset(env, command, temp, 1);
 	else if (x == 5)
 		return_value = call_cd(env, command[1]);
+	else if (x == 6 && pipe == 1)
+		return_value = exec_exit_pipe(command);
 	else if (x == 6)
 		exec_exit(command, env);
 	else if (x == 7)

@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:37:41 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/29 18:27:05 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 13:04:34 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int				prompt_execution(char *user_input, t_env *env, int last_status);
 int				px_exec(char **args, char **env_str, t_env *env, t_f *tc);
 int				apply_redirections(t_redir *redir,
 					int *input_fd, int *output_fd);
-int				exec_builtin(int x, char **command, t_env *env);
+int				exec_builtin(int x, char **command, t_env *env, int pipe);
 pid_t			launch_command(t_f **tc,
 					int prev_fd, int *pipefd, t_env *env);
 int				wait_children(pid_t last_pid, int count);
@@ -93,6 +93,7 @@ int				child_execute(t_f **tc,
 					int prev_fd, int *pipefd, t_env *env);
 int				execute_commands(t_command *cmd, t_env *env,
 					int count, t_f **tc);
+int				exec_exit_pipe(char **command);
 
 /* quit_shell.c */
 void			quit_shell(int exit_status, t_env *env);
