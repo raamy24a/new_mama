@@ -1,4 +1,3 @@
 fix invalid free unset
 expand une non valeur sans rien leaks
-fix leak export
 fix leak env -i

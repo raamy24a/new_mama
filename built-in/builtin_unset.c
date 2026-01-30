@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:24:56 by radib             #+#    #+#             */
-/*   Updated: 2026/01/28 11:55:44 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 13:58:55 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	environement_modifications(t_env *env, t_env *temp, char *key)
 		previous->next = temp->next;
 	else
 		previous->next = NULL;
+	free(temp->key);
+	free(temp->value);
 	free(temp);
 }
 
