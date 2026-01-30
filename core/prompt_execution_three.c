@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:35:30 by radib             #+#    #+#             */
-/*   Updated: 2026/01/30 12:50:18 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 14:20:06 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	child_execute(t_f **tc, int prev_fd, int *pipefd, t_env *env)
 	return (px_exec((*tc)->cmds->argv, str_env, env, *tc));
 }
 
-static int	init_pipefd(t_command *cmd, int pipefd[2])
+int	init_pipefd(t_command *cmd, int pipefd[2])
 {
 	pipefd[0] = -1;
 	pipefd[1] = -1;
@@ -86,7 +86,7 @@ static int	init_pipefd(t_command *cmd, int pipefd[2])
 	return (0);
 }
 
-static int	parent_update_fds(int *prev_fd, int pipefd[2])
+int	parent_update_fds(int *prev_fd, int pipefd[2])
 {
 	if (pipefd[1] != -1)
 		close(pipefd[1]);
@@ -94,44 +94,4 @@ static int	parent_update_fds(int *prev_fd, int pipefd[2])
 		close(*prev_fd);
 	*prev_fd = pipefd[0];
 	return (0);
-}
-
-static int	close_exec_fds(int prev_fd, int pipefd[2])
-{
-	if (pipefd[0] != -1)
-		close(pipefd[0]);
-	if (pipefd[1] != -1)
-		close(pipefd[1]);
-	if (prev_fd != -1)
-		close(prev_fd);
-	return (1);
-}
-
-int	execute_commands(t_command *cmd, t_env *env, int count, t_f **tc)
-{
-	pid_t	last_pid;
-	int		pipefd[2];
-	int		prev_fd;
-
-	last_pid = -1;
-	prev_fd = -1;
-	while (cmd)
-	{
-		pipefd[0] = -1;
-		pipefd[1] = -1;
-		(*tc)->cmds = cmd;
-		if (init_pipefd(cmd, pipefd))
-			return (1);
-		last_pid = launch_command(tc, prev_fd, pipefd, env);
-		if (last_pid <= 0)
-			return (-last_pid * close_exec_fds(prev_fd, pipefd));
-		parent_update_fds(&prev_fd, pipefd);
-		cmd = cmd->next;
-		count++;
-	}
-	if (prev_fd != -1)
-		close(prev_fd);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	return (wait_children(last_pid, count));
 }

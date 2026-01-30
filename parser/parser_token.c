@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 15:28:04 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/29 21:33:36 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 14:12:54 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	process_command_token(t_shell **node
 
 int	handle_token(t_shell **node, t_struct *all, bool *pipe_pending)
 {
-	if ((*node)->token->type == TOK_PIPE) 
+	if ((*node)->token->type == TOK_PIPE)
 	{
 		if (!handle_pipe(*all->current, *node, pipe_pending))
 			return (0);

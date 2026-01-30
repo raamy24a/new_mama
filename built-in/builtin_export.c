@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 22:36:10 by radib             #+#    #+#             */
-/*   Updated: 2026/01/30 13:28:53 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 14:21:34 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,6 @@ t_env	*sorting_list(t_env *environement, char *key, char *value, t_env *temp)
 		}
 	}
 	return (to_sort);
-}
-
-static int	print_invalid_identifier(char *temp, char *command)
-{
-	ft_putstr_fd("minishell: export:`", STDERR_FILENO);
-	ft_putstr_fd(temp, STDERR_FILENO);
-	ft_putstr_fd("=", STDERR_FILENO);
-	ft_putstr_fd(command, STDERR_FILENO);
-	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
-	return (2);
 }
 
 int	verify_identifier(char **command, int i, int j, char *temp)

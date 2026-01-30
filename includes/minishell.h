@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:37:41 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/30 13:04:34 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 14:26:07 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int				echobuiltin(char **string, int newline, int x);
 int				exit_call(long long x, t_env *env, t_f *tc);
 int				exit_call_silent(int x, t_env *env, t_f *tc);
 int				export_builtin(t_env *environement, char **command, int verify);
+int				print_invalid_identifier(char *temp, char *command);
 int				call_pwd(void);
 char			**ft_split(char *str, char *charset);
 void			ft_lstadd_back_env(t_env *lst, t_env *new);
@@ -64,6 +65,8 @@ void			export_new_var(t_env *temp, char **to_export, int equal);
 // CORE
 /*Env manip*/
 char			**env_to_char_array(t_env *env, int i);
+int				env_len(t_env *env);
+
 /*free*/
 void			free_tc(t_f **tc);
 
@@ -72,6 +75,9 @@ void			handler(int sig);
 /*expend*/
 void			expand_commands(t_command *cmds, t_env *env,
 					int last_status);
+int				expand_str(int nbr, char **argv, int i);
+char			**expand_dollars(char *s, int x, t_env *env);
+char			*strip_quotes(const char *token);
 
 /* init_shell.c */
 t_env			*init_shell(char **envp);
@@ -94,6 +100,8 @@ int				child_execute(t_f **tc,
 int				execute_commands(t_command *cmd, t_env *env,
 					int count, t_f **tc);
 int				exec_exit_pipe(char **command);
+int				init_pipefd(t_command *cmd, int pipefd[2]);
+int				parent_update_fds(int *prev_fd, int pipefd[2]);
 
 /* quit_shell.c */
 void			quit_shell(int exit_status, t_env *env);

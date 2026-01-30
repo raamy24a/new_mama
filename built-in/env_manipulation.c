@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 07:23:43 by radib             #+#    #+#             */
-/*   Updated: 2026/01/23 11:57:21 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 14:28:23 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,18 @@ void	ft_lstadd_back_env(t_env *lst, t_env *new)
 	temp -> next = new;
 }
 
-int	env_len(t_env *env)
+void	end_env_to_char_array(t_env *temp, char **array_env, char *first_part,
+			int i)
 {
-	t_env	*temp;
-	int		i;
-
-	i = 1;
-	temp = env;
-	while (temp->next)
+	if (temp->value)
 	{
-		i++;
-		temp = temp->next;
+		first_part = ft_strjoin(temp->key, "=");
+		array_env[i] = ft_strjoin (first_part, temp->value);
+		free(first_part);
 	}
-	return (i);
+	else
+		array_env[i] = ft_strjoin(temp->key, "=");
+	array_env[i + 1] = NULL;
 }
 
 char	**env_to_char_array(t_env *env, int i)
@@ -96,14 +95,6 @@ char	**env_to_char_array(t_env *env, int i)
 		temp = temp->next;
 		i++;
 	}
-	if (temp->value)
-	{
-		first_part = ft_strjoin(temp->key, "=");
-		array_env[i] = ft_strjoin (first_part, temp->value);
-		free(first_part);
-	}
-	else
-		array_env[i] = ft_strjoin(temp->key, "=");
-	array_env[i + 1] = NULL;
+	end_env_to_char_array(temp, array_env, first_part, i);
 	return (array_env);
 }

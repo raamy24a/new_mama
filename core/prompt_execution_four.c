@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 12:55:38 by radib             #+#    #+#             */
-/*   Updated: 2026/01/30 13:04:25 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 14:19:26 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,44 @@ int	exec_exit_pipe(char **command)
 	}
 	free(nbr);
 	return (exit_nbr % 256);
+}
+
+static int	close_exec_fds(int prev_fd, int pipefd[2])
+{
+	if (pipefd[0] != -1)
+		close(pipefd[0]);
+	if (pipefd[1] != -1)
+		close(pipefd[1]);
+	if (prev_fd != -1)
+		close(prev_fd);
+	return (1);
+}
+
+int	execute_commands(t_command *cmd, t_env *env, int count, t_f **tc)
+{
+	pid_t	last_pid;
+	int		pipefd[2];
+	int		prev_fd;
+
+	last_pid = -1;
+	prev_fd = -1;
+	while (cmd)
+	{
+		pipefd[0] = -1;
+		pipefd[1] = -1;
+		(*tc)->cmds = cmd;
+		if (init_pipefd(cmd, pipefd))
+			return (1);
+		last_pid = launch_command(tc, prev_fd, pipefd, env);
+		if (last_pid <= 0)
+			return (-last_pid * close_exec_fds(prev_fd, pipefd));
+		parent_update_fds(&prev_fd, pipefd);
+		cmd = cmd->next;
+		count++;
+	}
+	if (prev_fd != -1)
+		close(prev_fd);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	return (wait_children(last_pid, count));
 }

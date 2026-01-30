@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 09:58:40 by radib             #+#    #+#             */
-/*   Updated: 2026/01/28 21:15:52 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 14:25:52 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,19 @@ int	change_value_of_key(t_env *env, char *key, char *new_value)
 	tmp->value = ft_strdup(new_value);
 	tmp->status = 1;
 	return (1);
+}
+
+int	env_len(t_env *env)
+{
+	t_env	*temp;
+	int		i;
+
+	i = 1;
+	temp = env;
+	while (temp->next)
+	{
+		i++;
+		temp = temp->next;
+	}
+	return (i);
 }

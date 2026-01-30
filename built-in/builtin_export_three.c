@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 18:14:18 by radib             #+#    #+#             */
-/*   Updated: 2026/01/23 13:14:08 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 14:21:43 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,14 @@ void	export_new_var(t_env *temp, char **to_export, int equal)
 	new->status = equal_choice(equal, new->value);
 	new->next = NULL;
 	temp->next = new;
+}
+
+int	print_invalid_identifier(char *temp, char *command)
+{
+	ft_putstr_fd("minishell: export:`", STDERR_FILENO);
+	ft_putstr_fd(temp, STDERR_FILENO);
+	ft_putstr_fd("=", STDERR_FILENO);
+	ft_putstr_fd(command, STDERR_FILENO);
+	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+	return (2);
 }

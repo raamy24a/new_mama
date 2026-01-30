@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 10:15:57 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/29 23:36:04 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/30 14:18:33 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_env	*duplicate_env(char *input)
 
 void	free_env(t_env *env)
 {
-	t_env *next;
+	t_env	*next;
 
 	while (env)
 	{

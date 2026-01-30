@@ -6,7 +6,7 @@
 #    By: radib <radib@student.s19.be>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/25 16:37:52 by acollon           #+#    #+#              #
-#    Updated: 2026/01/30 12:56:56 by radib            ###   ########.fr        #
+#    Updated: 2026/01/30 14:15:09 by radib            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,8 @@ SRCS        = \
 				env/init_env_two.c \
 				built-in/env_manipulation_two.c \
 				expand/expand.c \
-				core/prompt_execution_four.c
+				core/prompt_execution_four.c \
+				expand/expand_two.c
 
 OBJS        = $(SRCS:.c=.o)
 
