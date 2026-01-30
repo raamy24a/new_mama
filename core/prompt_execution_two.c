@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:34:38 by radib             #+#    #+#             */
-/*   Updated: 2026/01/29 18:27:52 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/29 23:47:16 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ pid_t	launch_command(t_f **tc, int prev_fd, int *pipefd, t_env *env)
 	if (!(*tc)->cmds->argv)
 		return (0);
 	if (is_builtin((*tc)->cmds->argv[0]) && !((*tc)->cmds->pipe_after))
-		return (exec_builtin(is_builtin((*tc)->cmds->argv[0]), (*tc)->cmds->argv, env));
+		return (exec_builtin(is_builtin((*tc)->cmds->argv[0]),
+			(*tc)->cmds->argv, env));
 	else
 	{
 		pid = fork();
@@ -95,6 +96,7 @@ int	prompt_execution(char *user_input, t_env *env, int last_status)
 	t_shell	*token_list;
 	int		status;
 
+	signal(SIGPIPE, SIG_IGN);
 	status = 2;
 	token_list = NULL;
 	if (!lexer(user_input, &token_list))
