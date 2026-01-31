@@ -1,6 +1,3 @@
-ENV pas bon car status
 > t
 devrait creer un fichier 
-echo $
-^C signal -> 130
 Fix heredoc
