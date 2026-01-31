@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:37:41 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/31 00:05:03 by radib            ###   ########.fr       */
+/*   Updated: 2026/01/31 02:42:45 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int				execute_commands(t_command *cmd, t_env *env,
 int				exec_exit_pipe(char **command);
 int				init_pipefd(t_command *cmd, int pipefd[2]);
 int				parent_update_fds(int *prev_fd, int pipefd[2]);
+int				apply_redirection_only_command(t_f **tc, int pipefd[2], int prev_fd);
 
 /* quit_shell.c */
 void			quit_shell(int exit_status, t_env *env);
