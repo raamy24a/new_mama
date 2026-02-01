@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:37:41 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/31 02:42:45 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/01 17:04:25 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void			free_tc(t_f **tc);
 
 /* Signaux*/
 void			handler(int sig);
+void			handler_heredoc(int sig);
 /*expend*/
 void			expand_commands(t_command *cmds, t_env *env,
 					int last_status);
@@ -87,6 +88,8 @@ int				interactive_shell(t_env *env);
 
 /* prompt_execution.c */
 int				is_builtin(char *builtin_str);
+void			child_execute_suite(t_f **tc, int input_fd,
+					int output_fd, t_env *env);
 int				prompt_execution(char *user_input, t_env *env, int last_status);
 int				px_exec(char **args, char **env_str, t_env *env, t_f *tc);
 int				apply_redirections(t_redir *redir,
@@ -102,7 +105,11 @@ int				execute_commands(t_command *cmd, t_env *env,
 int				exec_exit_pipe(char **command);
 int				init_pipefd(t_command *cmd, int pipefd[2]);
 int				parent_update_fds(int *prev_fd, int pipefd[2]);
-int				apply_redirection_only_command(t_f **tc, int pipefd[2], int prev_fd);
+int				apply_redirection_only_command(t_f **tc,
+					int pipefd[2], int prev_fd, t_env *env);
+void			apply_redirection_helper(t_f **tc, int pipefd[2],
+					int prev_fd, t_env *env);
+
 
 /* quit_shell.c */
 void			quit_shell(int exit_status, t_env *env);

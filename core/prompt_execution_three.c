@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:35:30 by radib             #+#    #+#             */
-/*   Updated: 2026/01/31 00:06:57 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/01 15:00:26 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,6 @@ int	is_builtin_child(char *builtin_str)
 	else if (ft_strcmp(builtin_str, "env") == 0)
 		return (7);
 	return (0);
-}
-
-void	child_execute_suite(t_f **tc, int input_fd, int output_fd, t_env *env)
-{
-	if (apply_redirections((*tc)->cmds->redirs, &input_fd, &output_fd) == -1)
-		exit_call(EXIT_FAILURE, env, (*tc));
-	if (dup2(input_fd, STDIN_FILENO) == -1)
-		perror("dup2");
-	if (dup2(output_fd, STDOUT_FILENO) == -1)
-		perror("dup2");
-	if (input_fd != STDIN_FILENO)
-		close(input_fd);
-	if (output_fd != STDOUT_FILENO)
-		close(output_fd);
 }
 
 int	child_execute(t_f **tc, int prev_fd, int *pipefd, t_env *env)

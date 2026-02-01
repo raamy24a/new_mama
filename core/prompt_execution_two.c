@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:34:38 by radib             #+#    #+#             */
-/*   Updated: 2026/01/31 02:43:07 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/01 16:30:24 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ pid_t	launch_command(t_f **tc, int prev_fd, int *pipefd, t_env *env)
 	pid_t				pid;
 
 	if (!(*tc)->cmds->argv)
-		return (apply_redirection_only_command(tc, pipefd, prev_fd));
+		return (apply_redirection_only_command(tc, pipefd, prev_fd, env));
 	if (is_builtin((*tc)->cmds->argv[0]) && (!((*tc)->cmds->pipe_after)
 			&& !((*tc)->cmds->pipe_before)))
 		return (exec_builtin(is_builtin((*tc)->cmds->argv[0]),
@@ -85,7 +85,7 @@ int	run_pipeline(t_shell *tokens, t_env *env, int last_status)
 		tc->tokens = tokens;
 		tc->env = env;
 		tc->cmd_adress = &cmds;
-		if(cmds->argv)
+		if (cmds->argv)
 			expand_commands(cmds, env, last_status);
 		status = execute_commands(cmds, env, 0, &tc);
 	}

@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 15:32:14 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/31 00:06:14 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/01 16:29:51 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	handle_heredoc(const char *delimiter)
 	char	*line;
 
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handler_heredoc);
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe");
@@ -27,14 +28,17 @@ int	handle_heredoc(const char *delimiter)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || !strcmp(line, delimiter))
+		if (!line || !ft_strcmp(line, delimiter))
+		{
+			if (!line)
+				printf("minishell: end-of-file (wanted `%s')\n", delimiter);
 			break ;
+		}
 		ft_putendl_fd(line, pipefd[1]);
 		free(line);
 	}
-	free(line);
 	close(pipefd[1]);
-	return (pipefd[0]);
+	return (free(line), pipefd[0]);
 }
 
 int	fd_value(int fd, t_redir *redir)
