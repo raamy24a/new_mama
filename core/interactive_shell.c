@@ -6,13 +6,11 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 15:31:36 by acollon           #+#    #+#             */
-/*   Updated: 2026/02/01 17:05:02 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 08:52:15 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int		g_last_status;
 
 static char	*prompt_listener(void)
 {
@@ -92,20 +90,4 @@ int	apply_redirection_only_command(t_f **tc, int pipefd[2],
 		exit_call_silent (0, env, *tc);
 	}
 	return (pid);
-}
-void	child_execute_suite(t_f **tc, int input_fd, int output_fd, t_env *env)
-{
-	g_last_status = 0;
-	if (apply_redirections((*tc)->cmds->redirs, &input_fd, &output_fd) == -1)
-		exit_call(EXIT_FAILURE, env, (*tc));
-	if (dup2(input_fd, STDIN_FILENO) == -1)
-		perror("dup2");
-	if (dup2(output_fd, STDOUT_FILENO) == -1)
-		perror("dup2");
-	if (input_fd != STDIN_FILENO)
-		close(input_fd);
-	if (output_fd != STDOUT_FILENO)
-		close(output_fd);
-	if (g_last_status == 130)
-		exit_call_silent (130, env, *tc);
 }

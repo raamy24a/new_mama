@@ -6,15 +6,17 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 15:31:11 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/16 04:50:40 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 09:00:37 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+volatile int	g_last_status;
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_env	*env;
+	t_env			*env;
 
 	(void)argv;
 	if (argc != 1)

@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:37:41 by acollon           #+#    #+#             */
-/*   Updated: 2026/02/01 17:04:25 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 09:02:45 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+extern volatile int	g_last_status;
 /* --BUILTINS-- */
 int				call_cd(t_env *env, char *string_after_cd);
 int				echobuiltin(char **string, int newline, int x);
@@ -109,7 +110,6 @@ int				apply_redirection_only_command(t_f **tc,
 					int pipefd[2], int prev_fd, t_env *env);
 void			apply_redirection_helper(t_f **tc, int pipefd[2],
 					int prev_fd, t_env *env);
-
 
 /* quit_shell.c */
 void			quit_shell(int exit_status, t_env *env);

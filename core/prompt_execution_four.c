@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 12:55:38 by radib             #+#    #+#             */
-/*   Updated: 2026/02/01 17:03:55 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 08:53:33 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,23 @@ static int	close_exec_fds(int prev_fd, int pipefd[2])
 	return (1);
 }
 
+void	child_execute_suite(t_f **tc, int input_fd, int output_fd, t_env *env)
+{
+	g_last_status = 0;
+	if (apply_redirections((*tc)->cmds->redirs, &input_fd, &output_fd) == -1)
+		exit_call(EXIT_FAILURE, env, (*tc));
+	if (dup2(input_fd, STDIN_FILENO) == -1)
+		perror("dup2");
+	if (dup2(output_fd, STDOUT_FILENO) == -1)
+		perror("dup2");
+	if (input_fd != STDIN_FILENO)
+		close(input_fd);
+	if (output_fd != STDOUT_FILENO)
+		close(output_fd);
+	if (g_last_status == 130)
+		exit_call_silent (130, env, *tc);
+}
+
 int	execute_commands(t_command *cmd, t_env *env, int count, t_f **tc)
 {
 	pid_t	last_pid;
@@ -77,14 +94,17 @@ int	execute_commands(t_command *cmd, t_env *env, int count, t_f **tc)
 	signal(SIGQUIT, SIG_IGN);
 	return (wait_children(last_pid, count));
 }
-void apply_redirection_helper(t_f **tc, int pipefd[2], int prev_fd, t_env *env)
+
+void	apply_redirection_helper(t_f **tc, int pipefd[2],
+		int prev_fd, t_env *env)
 {
 	int	in_fd;
 	int	out_fd;
 
 	signal(SIGINT, handler_heredoc);
 	signal(SIGQUIT, SIG_IGN);
-	in_fd = prev_fd; out_fd = pipefd[1];
+	in_fd = prev_fd;
+	out_fd = pipefd[1];
 	if (in_fd == -1)
 		in_fd = STDIN_FILENO;
 	if (out_fd == -1)

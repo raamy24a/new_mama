@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 15:32:14 by acollon           #+#    #+#             */
-/*   Updated: 2026/02/01 16:29:51 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 08:54:10 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	handle_heredoc(const char *delimiter)
 		line = readline("> ");
 		if (!line || !ft_strcmp(line, delimiter))
 		{
-			if (!line)
+			if (!line && g_last_status != 130)
 				printf("minishell: end-of-file (wanted `%s')\n", delimiter);
 			break ;
 		}
