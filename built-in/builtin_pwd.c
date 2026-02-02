@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 22:36:10 by radib             #+#    #+#             */
-/*   Updated: 2026/01/29 18:18:55 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 23:02:43 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_pwd(void)
 	if (getcwd(buffer, 4096) != NULL)
 		return (buffer);
 	free(buffer);
-	perror("rien pour l'instant");
+	perror("getcwd: No such file or directory");
 	return (NULL);
 }
 

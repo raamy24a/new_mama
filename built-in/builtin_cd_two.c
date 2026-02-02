@@ -6,11 +6,20 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:28:38 by radib             #+#    #+#             */
-/*   Updated: 2026/02/02 13:51:20 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 23:17:20 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	is_dir(const char *p)
+{
+	struct stat	st;
+
+	if (!p || !*p)
+		return (0);
+	return (stat(p, &st) == 0 && S_ISDIR(st.st_mode));
+}
 
 void	print_pwd(void)
 {
@@ -64,7 +73,10 @@ int	call_cd(t_env *env, char *string_after_cd)
 {
 	int		x;
 	char	*temp_pwd;
+	int		bad;
+	char	*temp;
 
+	bad = 0;
 	temp_pwd = get_pwd();
 	x = wich_cd(env, string_after_cd, 1);
 	if (x == 0 || x == 1)
@@ -72,7 +84,11 @@ int	call_cd(t_env *env, char *string_after_cd)
 		free(temp_pwd);
 		return (x);
 	}
-	if ((chdir(cd_builtin(temp_pwd, string_after_cd, 0)) != 0))
+	temp = cd_builtin(temp_pwd, string_after_cd, 0, &bad);
+	if (bad)
+		return (ft_putendl_fd("cd : invalid path going to root", 2),
+			chdir("/"), -1);
+	if ((chdir(temp) != 0))
 	{
 		ft_putstr_fd("minishell: cd:", 2);
 		perror(string_after_cd);

@@ -6,18 +6,23 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 03:04:19 by radib             #+#    #+#             */
-/*   Updated: 2026/02/02 13:53:03 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 22:57:03 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../libft/libft.h"
 
-char	*remove_last(char *string)
+char	*remove_last(char *string, int *bad)
 {
 	int	x;
 
 	x = 0;
+	if (!is_dir(string))
+	{
+		*bad = 1;
+		return (NULL);
+	}
 	while (string[x])
 		x++;
 	while (string[x] != '/')
@@ -26,6 +31,11 @@ char	*remove_last(char *string)
 		x--;
 	}
 	string[x] = '\0';
+	if (!is_dir(string))
+	{
+		*bad = 1;
+		return (NULL);
+	}
 	return (string);
 }
 
@@ -49,7 +59,7 @@ char	*add_word(char *string, char *word_to_add)
 	return (string);
 }
 
-char	*cd_builtin(char *path, char *string_after_cd, int x)
+char	*cd_builtin(char *path, char *string_after_cd, int x, int *bad)
 {
 	char	**split;
 
@@ -62,8 +72,10 @@ char	*cd_builtin(char *path, char *string_after_cd, int x)
 	{
 		if ((split[x][0] == '.' && split[x][1] == '.') && split[x][2] == '\0')
 		{
-			remove_last(path);
+			remove_last(path, bad);
 			x++;
+			if (*bad)
+				return (free_split(split), "/");
 		}
 		else if (ft_strcmp(split[x], "."))
 		{
@@ -73,8 +85,7 @@ char	*cd_builtin(char *path, char *string_after_cd, int x)
 		else
 			x++;
 	}
-	free_split(split);
-	return (path);
+	return (free_split(split), path);
 }
 
 int	swap_env(t_env *env, char *a, char *b, int mode)

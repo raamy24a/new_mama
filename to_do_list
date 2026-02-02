@@ -1,2 +1,5 @@
 cd .. quand on est dans une sucession de files supprimee 
 cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+cd . dans un directory qui n'existe pas segfault surement.
+faut encore fix la norme 
+mais c'est bon

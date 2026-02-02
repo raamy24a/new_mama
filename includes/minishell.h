@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:37:41 by acollon           #+#    #+#             */
-/*   Updated: 2026/02/02 14:15:35 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 22:15:02 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int				export_str(t_env *env, char **to_export, int equal);
 t_env			*sorting_list(t_env *environement,
 					char *key, char *value, t_env *temp);
 char			*cd_home(t_env *env);
-char			*cd_builtin(char *path, char *string_after_cd, int x);
+char			*cd_builtin(char *path, char *string_after_cd, int x, int *bad);
 t_long_verif	*ft_verif_atoll(const char *nptr, int sign,
 					long long total, int i);
 int				change_value_of_key(t_env *env, char *key, char *new_value);
@@ -62,6 +62,7 @@ int				swap_env(t_env *env, char *a, char *b, int mode);
 int				equal_choice(int equal, char *value);
 void			export_old_var(t_env *temp, char *to_export, int equal);
 void			export_new_var(t_env *temp, char **to_export, int equal);
+int				is_dir(const char *p);
 
 // CORE
 /*Env manip*/
