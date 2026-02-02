@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:37:41 by acollon           #+#    #+#             */
-/*   Updated: 2026/02/02 10:02:56 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 14:15:35 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ char			*px_find_path(char *cmd, char **envp);
 char			*absolute_or_relative(const char *cmd);
 char			*build_path(const char *dir, const char *cmd);
 char			*get_path_value(char **envp);
-char			*get_underscore_value(char **envp);
 void			free_split(char **array);
 
 #endif

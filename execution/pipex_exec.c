@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:12:00 by acollon           #+#    #+#             */
-/*   Updated: 2026/02/02 10:17:31 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 15:38:49 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ void	command_not_found(char **args, t_env *env, t_f *tc, char **env_str)
 {
 	ft_putstr_fd(args[0], STDERR_FILENO);
 	ft_putendl_fd(": command not found", STDERR_FILENO);
-	free_all(args, env, tc, env_str);
+	free_env(env);
+	free_split(env_str);
+	free_token_list(&tc->tokens);
+	free_command_list(tc->cmd_adress);
+	free(tc);
 	exit (127);
 }
 
@@ -69,6 +73,10 @@ int	px_exec(char **args, char **env_str, t_env *env, t_f *tc)
 	execve(path, args, env_str);
 	perror("execve");
 	free(path);
-	free_all(args, env, tc, env_str);
+	free_env(env);
+	free_split(env_str);
+	free_token_list(&tc->tokens);
+	free_command_list(tc->cmd_adress);
+	free(tc);
 	exit (126);
 }

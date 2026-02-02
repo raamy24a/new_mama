@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:12:00 by acollon           #+#    #+#             */
-/*   Updated: 2026/01/22 09:10:52 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 14:15:29 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,6 @@ void	free_split(char **array)
 		i++;
 	}
 	free(array);
-}
-
-char	*get_underscore_value(char **envp)
-{
-	size_t	len;
-	size_t	i;
-
-	if (!envp)
-		return (NULL);
-	len = ft_strlen("_");
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "_", len) == 0)
-			return (envp[i] + len);
-		i++;
-	}
-	return (NULL);
 }
 
 char	*get_path_value(char **envp)

@@ -1,2 +1,2 @@
-command failed || pipe 
 cd .. quand on est dans une sucession de files supprimee 
+cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
