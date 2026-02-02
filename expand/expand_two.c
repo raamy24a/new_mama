@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:14:08 by radib             #+#    #+#             */
-/*   Updated: 2026/01/31 00:35:49 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 10:03:59 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	skip_single(char *argv, int i)
 	return (i);
 }
 
-int	expand_argv(char **argv, int i, int last_status, t_env *env)
+void	expand_argv(char **argv, int i, int last_status, t_env *env)
 {
 	int	last;
 	int	yes;
@@ -68,11 +68,11 @@ int	expand_argv(char **argv, int i, int last_status, t_env *env)
 						argv, i);
 		}
 		if (i < last)
-			return (1);
+			return ;
 		if (argv[0][i] && argv[0][i] != '$')
 			i++;
 	}
-	return (0);
+	return ;
 }
 
 void	expand_commands(t_command *cmds, t_env *env, int last_status)

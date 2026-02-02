@@ -6,7 +6,7 @@
 #    By: radib <radib@student.s19.be>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/25 16:37:52 by acollon           #+#    #+#              #
-#    Updated: 2026/01/30 14:15:09 by radib            ###   ########.fr        #
+#    Updated: 2026/02/02 09:36:41 by radib            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,8 @@ SRCS        = \
 				built-in/env_manipulation_two.c \
 				expand/expand.c \
 				core/prompt_execution_four.c \
-				expand/expand_two.c
+				expand/expand_two.c \
+				core/heredoc_helper.c
 
 OBJS        = $(SRCS:.c=.o)
 

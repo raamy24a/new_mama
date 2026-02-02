@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:37:41 by acollon           #+#    #+#             */
-/*   Updated: 2026/02/02 09:02:45 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 10:02:56 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void			expand_commands(t_command *cmds, t_env *env,
 int				expand_str(int nbr, char **argv, int i);
 char			**expand_dollars(char *s, int x, t_env *env);
 char			*strip_quotes(const char *token);
+void			expand_argv(char **argv, int i, int last_status, t_env *env);
 
 /* init_shell.c */
 t_env			*init_shell(char **envp);
@@ -94,7 +95,7 @@ void			child_execute_suite(t_f **tc, int input_fd,
 int				prompt_execution(char *user_input, t_env *env, int last_status);
 int				px_exec(char **args, char **env_str, t_env *env, t_f *tc);
 int				apply_redirections(t_redir *redir,
-					int *input_fd, int *output_fd);
+					int *input_fd, int *output_fd, t_env *env);
 int				exec_builtin(int x, char **command, t_env *env, t_f *tc);
 pid_t			launch_command(t_f **tc,
 					int prev_fd, int *pipefd, t_env *env);
@@ -110,6 +111,7 @@ int				apply_redirection_only_command(t_f **tc,
 					int pipefd[2], int prev_fd, t_env *env);
 void			apply_redirection_helper(t_f **tc, int pipefd[2],
 					int prev_fd, t_env *env);
+int				heredoc_helper(char **delimiter);
 
 /* quit_shell.c */
 void			quit_shell(int exit_status, t_env *env);

@@ -6,25 +6,22 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 15:32:14 by acollon           #+#    #+#             */
-/*   Updated: 2026/02/02 08:54:10 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 10:03:07 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <string.h>
 
-int	handle_heredoc(const char *delimiter)
+int	handle_heredoc(char *delimiter, t_env *env)
 {
 	int		pipefd[2];
 	char	*line;
+	int		to_expand;
 
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handler_heredoc);
+	to_expand = heredoc_helper(&delimiter);
 	if (pipe(pipefd) == -1)
-	{
-		perror("pipe");
-		return (-1);
-	}
+		return (perror("pipe"), -1);
 	while (1)
 	{
 		line = readline("> ");
@@ -34,14 +31,16 @@ int	handle_heredoc(const char *delimiter)
 				printf("minishell: end-of-file (wanted `%s')\n", delimiter);
 			break ;
 		}
+		if (to_expand)
+			expand_argv(&line, 0, g_last_status, env);
 		ft_putendl_fd(line, pipefd[1]);
 		free(line);
 	}
 	close(pipefd[1]);
-	return (free(line), pipefd[0]);
+	return (free(line), free(delimiter), pipefd[0]);
 }
 
-int	fd_value(int fd, t_redir *redir)
+int	fd_value(int fd, t_redir *redir, t_env *env)
 {
 	if (redir->type == REDIR_IN)
 		fd = open(redir->target, O_RDONLY);
@@ -50,18 +49,19 @@ int	fd_value(int fd, t_redir *redir)
 	else if (redir->type == REDIR_APPEND)
 		fd = open(redir->target, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	else if (redir->type == REDIR_HEREDOC)
-		fd = handle_heredoc(redir->target);
+		fd = handle_heredoc(redir->target, env);
 	return (fd);
 }
 
-int	apply_redirections(t_redir *redir, int *input_fd, int *output_fd)
+int	apply_redirections(t_redir *redir, int *input_fd,
+		int *output_fd, t_env *env)
 {
 	int	fd;
 
 	while (redir)
 	{
 		fd = -1;
-		fd = fd_value(fd, redir);
+		fd = fd_value(fd, redir, env);
 		if (fd < 0)
 			return (perror(redir->target), -1);
 		if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)

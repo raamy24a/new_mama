@@ -1,5 +1,2 @@
-FIX HEREDOC DIFFERENCIER CTRL+C ET CTRL+D
 command failed || pipe 
-HEREDOC EXPAND LES ARGS DEDANS 
-HEREDOC NE PAS EXPAND LES ARGS DEDANS SI delimiter""
 cd .. quand on est dans une sucession de files supprimee 

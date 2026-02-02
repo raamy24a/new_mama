@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 12:55:38 by radib             #+#    #+#             */
-/*   Updated: 2026/02/02 08:53:33 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/02 10:03:38 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static int	close_exec_fds(int prev_fd, int pipefd[2])
 void	child_execute_suite(t_f **tc, int input_fd, int output_fd, t_env *env)
 {
 	g_last_status = 0;
-	if (apply_redirections((*tc)->cmds->redirs, &input_fd, &output_fd) == -1)
+	if (apply_redirections((*tc)->cmds->redirs, &input_fd, &output_fd,
+			env) == -1)
 		exit_call(EXIT_FAILURE, env, (*tc));
 	if (dup2(input_fd, STDIN_FILENO) == -1)
 		perror("dup2");
@@ -109,7 +110,7 @@ void	apply_redirection_helper(t_f **tc, int pipefd[2],
 		in_fd = STDIN_FILENO;
 	if (out_fd == -1)
 		out_fd = STDOUT_FILENO;
-	if (apply_redirections((*tc)->cmds->redirs, &in_fd, &out_fd) == -1)
+	if (apply_redirections((*tc)->cmds->redirs, &in_fd, &out_fd, env) == -1)
 		exit_call_silent (1, env, *tc);
 	if (in_fd != STDIN_FILENO && in_fd != prev_fd)
 		close(in_fd);
