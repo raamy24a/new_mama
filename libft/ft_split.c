@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:05:43 by acollon           #+#    #+#             */
-/*   Updated: 2025/12/19 15:25:40 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 14:20:32 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,11 @@ char	**strs_alloc(char **strs, char *str, char *charset, int i)
 	{
 		while (is_sep(str, charset, i) == 1)
 			i++;
+		if (is_sep(str, charset, i) == 2)
+			break ;
 		j = i;
 		while (is_sep(str, charset, j) == 0 && str[j])
 			j++;
-		if (is_sep(str, charset, i) == 2)
-		{
-			strs[k] = malloc(sizeof(char) * (j - i + 1));
-			if (!strs[k])
-				return (NULL);
-			break ;
-		}
 		strs[k] = malloc(sizeof(char) * (j - i + 1));
 		if (!strs[k])
 			return (NULL);
@@ -66,16 +61,16 @@ char	**strs_write(char **strs, char *str, char *charset)
 	int	i;
 	int	j;
 	int	k;
-	int	l;
 
 	i = 0;
 	k = 0;
 	while (is_sep(str, charset, i) != 2)
 	{
-		j = 0;
 		while (is_sep(str, charset, i) == 1)
 			i++;
-		l = i;
+		if (is_sep(str, charset, i) == 2)
+			break ;
+		j = 0;
 		while (is_sep(str, charset, i) == 0 && str[i] != '\0')
 		{
 			strs[k][j] = str[i];
@@ -83,12 +78,12 @@ char	**strs_write(char **strs, char *str, char *charset)
 			j++;
 		}
 		strs[k][j] = '\0';
-		if (i != l)
-			k++;
+		k++;
 	}
 	strs[k] = NULL;
 	return (strs);
 }
+
 
 char	**ft_split(char *str, char *charset)
 {
