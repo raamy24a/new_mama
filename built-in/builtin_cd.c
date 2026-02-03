@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 03:04:19 by radib             #+#    #+#             */
-/*   Updated: 2026/02/03 09:49:08 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 23:39:22 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@ char	*remove_last(char *string, int *bad)
 	int	x;
 
 	x = 0;
+	if (ft_strlen(string) == 1)
+		return (string);
 	if (!is_dir(string))
-	{
-		*bad = 1;
-		return (NULL);
-	}
+		return (*bad = 1, NULL);
 	while (string[x])
 		x++;
 	while (string[x] != '/')
@@ -30,12 +29,12 @@ char	*remove_last(char *string, int *bad)
 		string[x] = '\0';
 		x--;
 	}
-	string[x] = '\0';
+	if (x)
+		string[x] = '\0';
+	else
+		string[x + 1] = '\0';
 	if (!is_dir(string))
-	{
-		*bad = 1;
-		return (NULL);
-	}
+		return (*bad = 1, NULL);
 	return (string);
 }
 

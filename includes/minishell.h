@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:37:41 by acollon           #+#    #+#             */
-/*   Updated: 2026/02/02 22:15:02 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 23:40:49 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int				equal_choice(int equal, char *value);
 void			export_old_var(t_env *temp, char *to_export, int equal);
 void			export_new_var(t_env *temp, char **to_export, int equal);
 int				is_dir(const char *p);
+int				error_print_cd(t_env *env);
 
 // CORE
 /*Env manip*/

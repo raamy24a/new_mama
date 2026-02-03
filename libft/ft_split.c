@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:05:43 by acollon           #+#    #+#             */
-/*   Updated: 2026/02/03 14:20:32 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 23:04:03 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ char	**strs_write(char **strs, char *str, char *charset)
 	strs[k] = NULL;
 	return (strs);
 }
-
 
 char	**ft_split(char *str, char *charset)
 {

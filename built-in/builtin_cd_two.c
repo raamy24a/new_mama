@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:28:38 by radib             #+#    #+#             */
-/*   Updated: 2026/02/03 09:42:24 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 23:17:45 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ int	call_cd(t_env *env, char *string_after_cd)
 		return (free(temp_pwd), x);
 	temp = cd_builtin(temp_pwd, string_after_cd, 0, &bad);
 	if (bad)
-		return (ft_putendl_fd("cd : invalid path going to root", 2),
-			chdir("/"), -1);
+		return (error_print_cd(env));
 	if ((chdir(temp) != 0))
 	{
 		ft_putstr_fd("minishell: cd:", 2);

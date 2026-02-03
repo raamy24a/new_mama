@@ -6,7 +6,7 @@
 #    By: radib <radib@student.s19.be>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/25 16:37:52 by acollon           #+#    #+#              #
-#    Updated: 2026/02/02 09:36:41 by radib            ###   ########.fr        #
+#    Updated: 2026/02/03 23:09:49 by radib            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,8 +60,8 @@ SRCS        = \
 				expand/expand.c \
 				core/prompt_execution_four.c \
 				expand/expand_two.c \
-				core/heredoc_helper.c
-
+				core/heredoc_helper.c \
+				built-in/cd_helper.c
 OBJS        = $(SRCS:.c=.o)
 
 CC          = cc
