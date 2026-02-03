@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:34:38 by radib             #+#    #+#             */
-/*   Updated: 2026/02/01 16:30:24 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 23:51:14 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int	wait_children(pid_t last_pid, int count)
 				exit_code = WEXITSTATUS(status);
 			else if (WTERMSIG(status) == SIGQUIT)
 			{
-				printf("Quit (core dumped)\n");
+				ft_putendl_fd("Quit (core dumped)", STDERR_FILENO);
 				exit_code = 131;
 			}
 			else if (WTERMSIG(status) == SIGINT)
 			{
-				printf("\n");
+				write (STDERR_FILENO, "\n", 1);
 				exit_code = 130;
 			}
 			else

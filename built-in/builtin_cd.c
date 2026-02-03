@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 03:04:19 by radib             #+#    #+#             */
-/*   Updated: 2026/02/03 23:39:22 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 23:46:15 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char	*cd_home(t_env *env)
 {
 	if (!get_value_of_key(env, "HOME"))
 	{
-		printf("minishell: cd: HOME not set\n");
+		ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
 		return (NULL);
 	}
 	return (get_value_of_key(env, "HOME"));

@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 12:55:38 by radib             #+#    #+#             */
-/*   Updated: 2026/02/02 10:03:38 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 23:55:39 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,18 @@ int	exec_exit_pipe(char **command)
 	exit_nbr = nbr->nbr;
 	if (nbr->status == 0)
 	{
-		printf("minishell: exit: %s: numeric argument required\n", command[1]);
-		free(nbr);
-		return (2);
+		ft_putstr_fd("minishell: exit:", STDERR_FILENO);
+		ft_putstr_fd(command[1], STDERR_FILENO);
+		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
+		return (free(nbr), 2);
 	}
 	else if (command[2])
 	{
-		printf ("minishell: exit: too many arguments\n");
-		printf("exit\n");
-		free(nbr);
-		return (1);
+		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
+		ft_putendl_fd("exit", STDERR_FILENO);
+		return (free(nbr), 1);
 	}
-	free(nbr);
-	return (exit_nbr % 256);
+	return (free(nbr), exit_nbr % 256);
 }
 
 static int	close_exec_fds(int prev_fd, int pipefd[2])

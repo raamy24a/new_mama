@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:28:38 by radib             #+#    #+#             */
-/*   Updated: 2026/02/03 23:17:45 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 23:45:53 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*cd_last(t_env *env)
 {
 	if (get_value_of_key(env, "OLDPWD") == NULL)
 	{
-		ft_printf("minishell: cd: OLDPWD not set\n");
+		ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
 		return (NULL);
 	}
 	return (get_value_of_key(env, "OLDPWD"));

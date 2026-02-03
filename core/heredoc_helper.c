@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 09:29:59 by radib             #+#    #+#             */
-/*   Updated: 2026/02/02 14:50:48 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/04 00:02:24 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,11 @@ int	heredoc_helper(char **delimiter)
 		return (free(old), 1);
 	else
 		return (free(old), 0);
+}
+
+void	handle_heredoc_error_print(char *delimiter)
+{
+	ft_putstr_fd("minishell: end-of-file (wanted `", STDERR_FILENO);
+	ft_putstr_fd(delimiter, STDERR_FILENO);
+	write (STDERR_FILENO, "')\n", 3);
 }

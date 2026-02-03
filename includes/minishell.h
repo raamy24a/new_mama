@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 14:37:41 by acollon           #+#    #+#             */
-/*   Updated: 2026/02/03 23:40:49 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/04 00:02:50 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int				apply_redirection_only_command(t_f **tc,
 void			apply_redirection_helper(t_f **tc, int pipefd[2],
 					int prev_fd, t_env *env);
 int				heredoc_helper(char **delimiter);
+void			handle_heredoc_error_print(char *delimiter);
 
 /* quit_shell.c */
 void			quit_shell(int exit_status, t_env *env);

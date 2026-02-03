@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 15:32:14 by acollon           #+#    #+#             */
-/*   Updated: 2026/02/02 10:03:07 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/04 00:02:04 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	handle_heredoc(char *delimiter, t_env *env)
 		if (!line || !ft_strcmp(line, delimiter))
 		{
 			if (!line && g_last_status != 130)
-				printf("minishell: end-of-file (wanted `%s')\n", delimiter);
+				handle_heredoc_error_print(delimiter);
 			break ;
 		}
 		if (to_expand)
@@ -92,14 +92,16 @@ void	exec_exit(char **command, t_env *env, t_f *tc)
 	exit_nbr = nbr->nbr;
 	if (nbr->status == 0)
 	{
-		printf("minishell: exit: %s: numeric argument required\n", command[1]);
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd(command[1], STDERR_FILENO);
+		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 		free(nbr);
 		exit_call(2, env, tc);
 	}
 	else if (command[2])
 	{
-		printf ("minishell: exit: too many arguments\n");
-		printf("exit\n");
+		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
+		ft_putendl_fd("exit", STDERR_FILENO);
 		free(nbr);
 		return ;
 	}

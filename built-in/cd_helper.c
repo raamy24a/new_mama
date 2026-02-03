@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 21:20:02 by radib             #+#    #+#             */
-/*   Updated: 2026/02/03 23:40:36 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 23:43:42 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	error_print_cd(t_env *env)
 	chdir("/");
 	temp = ft_strdup(get_value_of_key(env, "PWD"));
 	change_value_of_key(env, "PWD", "/");
-	change_value_of_key(env, "OLDPWD", ft_strdup(temp));
+	change_value_of_key(env, "OLDPWD", temp);
 	free(temp);
 	return (-1);
 }
