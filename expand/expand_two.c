@@ -6,34 +6,34 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:14:08 by radib             #+#    #+#             */
-/*   Updated: 2026/02/02 10:03:59 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 11:14:35 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	expand_str_two(char **str, char **argv, int i)
+int	expand_str_two(char **str, char **a, int i)
 {
 	char	*copy;
 	char	*temp;
 	int		x;
 
+	x = 0;
 	if (!str)
 		return (1);
-	copy = ft_strdup(*argv);
+	copy = ft_strdup(*a);
 	copy[i] = '\0';
 	temp = ft_strjoin(copy, str[1]);
-	free(*argv);
-	(*argv) = ft_strjoin(temp, str[0]);
+	free(*a);
+	(*a) = ft_strjoin(temp, str[0]);
 	free(copy);
 	free(temp);
-	if (!*argv)
+	if (!*a)
 		return (-1);
 	x = ft_strlen(str[1]);
 	if (!x)
 		x++;
-	free_split(str);
-	return (x - 1);
+	return (free_split(str), x - 1);
 }
 
 int	skip_single(char *argv, int i)

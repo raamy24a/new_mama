@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:28:38 by radib             #+#    #+#             */
-/*   Updated: 2026/02/02 23:17:20 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 09:42:24 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,7 @@ int	call_cd(t_env *env, char *string_after_cd)
 	temp_pwd = get_pwd();
 	x = wich_cd(env, string_after_cd, 1);
 	if (x == 0 || x == 1)
-	{
-		free(temp_pwd);
-		return (x);
-	}
+		return (free(temp_pwd), x);
 	temp = cd_builtin(temp_pwd, string_after_cd, 0, &bad);
 	if (bad)
 		return (ft_putendl_fd("cd : invalid path going to root", 2),
@@ -92,13 +89,11 @@ int	call_cd(t_env *env, char *string_after_cd)
 	{
 		ft_putstr_fd("minishell: cd:", 2);
 		perror(string_after_cd);
-		free(temp_pwd);
-		return (errno);
+		return (free(temp_pwd), errno);
 	}
 	change_value_of_key(env, "OLDPWD", get_value_of_key(env, "PWD"));
 	free(temp_pwd);
 	temp_pwd = get_pwd();
 	change_value_of_key(env, "PWD", temp_pwd);
-	free(temp_pwd);
-	return (0);
+	return (free(temp_pwd), 0);
 }

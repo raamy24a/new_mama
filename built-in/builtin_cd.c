@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 03:04:19 by radib             #+#    #+#             */
-/*   Updated: 2026/02/02 22:57:03 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 09:49:08 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,16 @@ char	*cd_builtin(char *path, char *string_after_cd, int x, int *bad)
 		if ((split[x][0] == '.' && split[x][1] == '.') && split[x][2] == '\0')
 		{
 			remove_last(path, bad);
-			x++;
 			if (*bad)
 				return (free_split(split), "/");
 		}
 		else if (ft_strcmp(split[x], "."))
 		{
 			add_word(path, split[x]);
-			x++;
+			if (*bad)
+				return (free_split(split), "/");
 		}
-		else
-			x++;
+		x++;
 	}
 	return (free_split(split), path);
 }

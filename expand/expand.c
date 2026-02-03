@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 00:20:02 by radib             #+#    #+#             */
-/*   Updated: 2026/01/31 00:25:18 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/03 11:16:22 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	**expand_dollars(char *s, int x, t_env *env)
 	char	*temp;
 	char	**return_str;
 
-	if (ft_strlen(s) == 1 || !ft_strlen(s))
+	if ((ft_strlen(s) == 1 && s[0] == '$') || !ft_strlen(s))
 		return (NULL);
 	return_str = malloc(sizeof(char *) * 3);
 	while (s[x] >= '0' && (s[x] <= '9' || s[x] >= 'A')
