@@ -6,7 +6,7 @@
 /*   By: radib <radib@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:48:51 by radib             #+#    #+#             */
-/*   Updated: 2026/01/30 12:02:25 by radib            ###   ########.fr       */
+/*   Updated: 2026/02/04 10:46:44 by radib            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ t_long_verif	*ft_verif_atoll(const char *nptr
 	{
 		total *= 10;
 		total += nptr[i] - '0';
-		if ((total * sign > 0) && sign == -1)
-			nbr->status = 0;
-		if ((total < 0) && sign == 1)
+		if (((total * sign > 0) && sign == -1) || ((total < 0) && sign == 1))
 			nbr->status = 0;
 		i++;
 	}
+	if (i == 0)
+		nbr->status = 0;
 	nbr->nbr = total * sign;
 	return (nbr);
 }
